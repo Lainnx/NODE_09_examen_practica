@@ -5,7 +5,7 @@ import mysql from "mysql2"
 //cargar fichero con lod datos de acceso
 process.loadEnvFile()
 
-// Configurar la conexión a la base de datos, la clave aqui TIENE QUE SER la que espera mysql para la config, no nombres random
+// Configurar la conexión a la base de datos, la clave aqui TIENE QUE SER la que espera mysql para la config, no nombres random (como en el .env)
 const configConnection = {
     host : process.env.DB_HOST,
     user : process.env.DB_USER,
