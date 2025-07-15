@@ -1,0 +1,3 @@
+use facultad;
+
+SELECT 

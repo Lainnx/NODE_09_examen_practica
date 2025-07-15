@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Facultad</title>
+</head>
+<body>
+    <header>
+        <h1>API Facultad</h1>
+    </header>
+    <main>
+        <h2>Consultas a los datos de la Facultad X</h2>
+    <dl>
+        <dt>
+            <a href="/alumnos">/alumnos</a>
+        </dt>
+        <dd>
+            Datos completos de todos los alumnos.
+        </dd>
+        <dt>
+            <form id="formLetra" method="POST">
+                <label>Letras a buscar: <input type="text" name="iniciales"></label>
+            </form>
+        </dt>
+        <dd>
+            Búsqueda de alumnos por letras iniciales del primer apellido.
+        </dd>
+    </dl>
+    </main>
+    <script src="js/facultad.js"></script>
+</body>
+</html>
