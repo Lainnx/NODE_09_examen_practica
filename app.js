@@ -65,14 +65,14 @@ app.get("/alumnos/:iniciales1/:iniciales2",(req,res)=>{
 // {"nombre_profesor": "Rafael", "apellido_profesor": "Murcia", "asignaturas":["x","y","z",...]}
 app.get("/profesor/:apellido/:nombre", (req,res)=>{
     const query4 = `SELECT p.nombre as "nombre_profesor", p.apellido1 as "apellido_profesor_1", p.apellido2 as "apellido_profesor_2"
-FROM profesor p 
-WHERE p.nombre ="${req.params.nombre}" and p.apellido1 ="${req.params.apellido}";`
+        FROM profesor p 
+        WHERE p.nombre ="${req.params.nombre}" and p.apellido1 ="${req.params.apellido}";`
     const query5 = `SELECT a.nombre 
-FROM profesor p 
-NATURAL JOIN impartir i 
-JOIN asignatura a
-ON i.idAsignatura = a.idAsignatura
-WHERE p.nombre ="${req.params.nombre}" and p.apellido1 ="${req.params.apellido}";`
+        FROM profesor p 
+        NATURAL JOIN impartir i 
+        JOIN asignatura a
+        ON i.idAsignatura = a.idAsignatura
+        WHERE p.nombre ="${req.params.nombre}" and p.apellido1 ="${req.params.apellido}";`
 
     let asignaturas = [] // array que tendra las asignaturas y a la que luego de daremos un nombre en el objeto y el array sera el valor 
     let profesor = {} // objeto final que tendra los datos que queremos
@@ -80,8 +80,9 @@ WHERE p.nombre ="${req.params.nombre}" and p.apellido1 ="${req.params.apellido}"
     connection.query(query4,(err,result1)=>{
         if(err) throw err
         if(result1.length == 0) { /*cuando no encuentra nada (datos)*/
-            return res.status(404).json({"mensaje":"Alumno no encontrado"})
+            return res.status(404).json({"mensaje":"Profesor no encontrado"})
         }
+
         result1.forEach((a)=>{
             // console.log(a.nombre_profesor);
             // console.log(a.apellido_profesor_1);
@@ -93,8 +94,9 @@ WHERE p.nombre ="${req.params.nombre}" and p.apellido1 ="${req.params.apellido}"
     connection.query(query5,(err,result2)=>{
         if(err) throw err
         if(result2.length == 0) { /*cuando no encuentra nada (datos)*/
-            return res.status(404).json({"mensaje":"Alumno no encontrado"})
+            return res.status(404).json({"mensaje":"Profesor no encontrado"})
         }
+
         result2.forEach((asignatura)=>{
             // console.log(asignatura.nombre);
             asignaturas.push(asignatura.nombre)
@@ -103,7 +105,36 @@ WHERE p.nombre ="${req.params.nombre}" and p.apellido1 ="${req.params.apellido}"
         // console.log(asignaturas);
         profesor.asignaturas = asignaturas
         console.log(profesor);
+        res.json(profesor)
     })
+/**************************************************************************************************/
+/*
+const query6 = `SELECT p.nombre as "nombre_profesor", p.apellido1 as "apellido_profesor_1", p.apellido2 as "apellido_profesor_2", a.nombre as "asignatura"
+FROM profesor p 
+NATURAL JOIN impartir i 
+JOIN asignatura a
+ON i.idAsignatura = a.idAsignatura
+WHERE p.nombre ="${req.params.nombre}" and p.apellido1 ="${req.params.apellido}";`
+
+connection.query(query6,(err,result)=>{
+        if(err) throw err
+        if(result.length == 0) { 
+            return res.status(404).json({"mensaje":"Alumno no encontrado"})
+        }
+        result.forEach((o)=>{
+            profesor.nombre=o.nombre_profesor
+            profesor.apellido_1=o.apellido_profesor_1
+            profesor.apellido_2=o.apellido_profesor_2
+            asignaturas.push(o.asignatura)
+
+        })
+        profesor.asignaturas = asignaturas
+        console.log(profesor);
+        res.json(profesor)
+    })
+*/
+/************************************************************************************************************* */
+
 
 })
 
