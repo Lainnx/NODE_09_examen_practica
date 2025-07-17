@@ -74,9 +74,9 @@ JOIN asignatura a
 ON i.idAsignatura = a.idAsignatura
 WHERE p.nombre ="${req.params.nombre}" and p.apellido1 ="${req.params.apellido}";`
 
-    let asignaturas = []
-    let profesor = {}
-    
+    let asignaturas = [] // array que tendra las asignaturas y a la que luego de daremos un nombre en el objeto y el array sera el valor 
+    let profesor = {} // objeto final que tendra los datos que queremos
+
     connection.query(query4,(err,result1)=>{
         if(err) throw err
         if(result1.length == 0) { /*cuando no encuentra nada (datos)*/
@@ -106,6 +106,8 @@ WHERE p.nombre ="${req.params.nombre}" and p.apellido1 ="${req.params.apellido}"
     })
 
 })
+
+
 
 // ruta 404
 app.use((req,res)=>{
