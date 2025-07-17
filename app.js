@@ -61,6 +61,52 @@ app.get("/alumnos/:iniciales1/:iniciales2",(req,res)=>{
 })
 
 
+// /profesor/apellidoProfe/nombreProfe -> nombre, apellido, asignaturas
+// {"nombre_profesor": "Rafael", "apellido_profesor": "Murcia", "asignaturas":["x","y","z",...]}
+app.get("/profesor/:apellido/:nombre", (req,res)=>{
+    const query4 = `SELECT p.nombre as "nombre_profesor", p.apellido1 as "apellido_profesor_1", p.apellido2 as "apellido_profesor_2"
+FROM profesor p 
+WHERE p.nombre ="${req.params.nombre}" and p.apellido1 ="${req.params.apellido}";`
+    const query5 = `SELECT a.nombre 
+FROM profesor p 
+NATURAL JOIN impartir i 
+JOIN asignatura a
+ON i.idAsignatura = a.idAsignatura
+WHERE p.nombre ="${req.params.nombre}" and p.apellido1 ="${req.params.apellido}";`
+
+    let asignaturas = []
+    let profesor = {}
+    
+    connection.query(query4,(err,result1)=>{
+        if(err) throw err
+        if(result1.length == 0) { /*cuando no encuentra nada (datos)*/
+            return res.status(404).json({"mensaje":"Alumno no encontrado"})
+        }
+        result1.forEach((a)=>{
+            // console.log(a.nombre_profesor);
+            // console.log(a.apellido_profesor_1);
+            // console.log(a.apellido_profesor_2);
+            profesor = a
+        })
+    })
+
+    connection.query(query5,(err,result2)=>{
+        if(err) throw err
+        if(result2.length == 0) { /*cuando no encuentra nada (datos)*/
+            return res.status(404).json({"mensaje":"Alumno no encontrado"})
+        }
+        result2.forEach((asignatura)=>{
+            // console.log(asignatura.nombre);
+            asignaturas.push(asignatura.nombre)
+            
+        })
+        // console.log(asignaturas);
+        profesor.asignaturas = asignaturas
+        console.log(profesor);
+    })
+
+})
+
 // ruta 404
 app.use((req,res)=>{
     res.status(404).send("<h1>Página no encontrada</h1>")
