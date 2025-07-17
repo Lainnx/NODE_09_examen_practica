@@ -39,7 +39,10 @@ app.get("/alumnos/:iniciales",(req,res)=>{
     
     connection.query(query2,(err,result)=>{
         // console.log(result);
-        if(err) throw err
+        if(err) throw err 
+        if(result.length == 0) { /*cuando no encuentra nada (datos)*/
+            return res.status(404).json({"mensaje":"Alumno no encontrado"})
+        }
         res.json(result)
     })
 })
@@ -50,9 +53,15 @@ app.get("/alumnos/:iniciales1/:iniciales2",(req,res)=>{
     connection.query(query3,(err,result)=>{
         // console.log(result);
         if(err) throw err
+        if(result.length == 0) { /*cuando no encuentra nada (datos)*/
+            return res.status(404).json({"mensaje":"Alumno no encontrado"})
+        }
         res.json(result)
     })
 })
+
+
+// ruta 404
 
 
 app.listen(PORT, ()=>{
