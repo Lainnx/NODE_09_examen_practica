@@ -62,6 +62,9 @@ app.get("/alumnos/:iniciales1/:iniciales2",(req,res)=>{
 
 
 // ruta 404
+app.use((req,res)=>{
+    res.status(404).send("<h1>Página no encontrada</h1>")
+})
 
 
 app.listen(PORT, ()=>{
